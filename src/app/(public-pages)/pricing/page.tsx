@@ -2,6 +2,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import Link from "next/link";
+import { MarketingAILogo } from "@/components/icons";
+import { SparklesText } from "@/components/magicui/sparkles-text";
+import { AnimatedGradientText } from "@/components/magicui/animated-gradient-text";
+import { RainbowButton } from "@/components/magicui/rainbow-button";
+import { ShinyButton } from "@/components/magicui/shiny-button";
+import { Meteors } from "@/components/magicui/meteors";
 
 export default function PricingPage() {
   return (
@@ -11,8 +17,10 @@ export default function PricingPage() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <div className="h-8 w-8 rounded-full bg-black"></div>
-              <h1 className="text-xl font-bold text-black">Marketing AI</h1>
+              <MarketingAILogo className="h-8 w-8" />
+              <h1 className="text-xl font-bold text-black">
+                <AnimatedGradientText>Marketing AI</AnimatedGradientText>
+              </h1>
             </div>
             <nav className="hidden md:flex items-center space-x-6">
               <Link href="/" className="text-gray-600 hover:text-black transition-colors">Home</Link>
@@ -32,9 +40,13 @@ export default function PricingPage() {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-5xl lg:text-6xl font-bold text-black mb-6">
-              Bảng giá
-              <span className="block bg-gradient-to-r from-gray-800 to-black bg-clip-text text-transparent">
-                minh bạch
+              <SparklesText className="text-5xl lg:text-6xl" sparklesCount={10}>
+                Bảng giá
+              </SparklesText>
+              <span className="block">
+                <AnimatedGradientText className="text-5xl lg:text-6xl font-bold">
+                  minh bạch
+                </AnimatedGradientText>
               </span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
@@ -62,13 +74,13 @@ export default function PricingPage() {
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {/* Free Plan */}
-            <Card className="bg-white border-gray-200 hover:border-black transition-colors shadow-lg hover:shadow-xl">
+            <Card className="bg-white border-gray-200 hover:border-black transition-colors shadow-lg hover:shadow-xl flex flex-col min-h-[560px]">
               <CardHeader className="text-center">
                 <CardTitle className="text-black">Free</CardTitle>
                 <div className="text-4xl font-bold text-black mb-2">$0</div>
                 <CardDescription className="text-gray-600">Miễn phí mãi mãi</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4 flex flex-col h-full">
+              <CardContent className="space-y-4 flex-1 flex flex-col justify-between">
                 <ul className="space-y-3 text-sm text-gray-600">
                   <li className="flex items-center">
                     <svg className="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -101,25 +113,23 @@ export default function PricingPage() {
                     Hỗ trợ email
                   </li>
                 </ul>
-                <Button className="w-full bg-gray-100 text-black hover:bg-gray-200 mt-auto">
-                  <Link href="/register">Bắt đầu miễn phí</Link>
-                </Button>
+                <div className="mt-auto pt-4">
+                  <Button className="w-full bg-gray-100 text-black hover:bg-gray-200">
+                    <Link href="/register">Bắt đầu miễn phí</Link>
+                  </Button>
+                </div>
               </CardContent>
             </Card>
 
             {/* Pro Plan */}
-            <Card className="bg-white border-black shadow-xl relative">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                <span className="bg-black text-white px-4 py-1 rounded-full text-sm font-medium">
-                  Phổ biến nhất
-                </span>
-              </div>
-              <CardHeader className="text-center">
+            <Card className="bg-white border-black shadow-xl relative overflow-hidden flex flex-col min-h-[560px]">
+              <Meteors number={15} />
+              <CardHeader className="text-center relative z-10">
                 <CardTitle className="text-black">Pro</CardTitle>
                 <div className="text-4xl font-bold text-black mb-2">$49</div>
                 <CardDescription className="text-gray-600">/tháng</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4 flex flex-col h-full">
+              <CardContent className="space-y-4 flex-1 flex flex-col justify-between relative z-10">
                 <ul className="space-y-3 text-sm text-gray-600">
                   <li className="flex items-center">
                     <svg className="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -164,20 +174,22 @@ export default function PricingPage() {
                     Hỗ trợ ưu tiên
                   </li>
                 </ul>
-                <Button className="w-full bg-black hover:bg-gray-800 text-white">
-                  <Link href="/register">Bắt đầu dùng thử</Link>
-                </Button>
+                <div className="mt-auto pt-4">
+                  <RainbowButton className="w-full">
+                    <Link href="/register">Bắt đầu dùng thử</Link>
+                  </RainbowButton>
+                </div>
               </CardContent>
             </Card>
 
             {/* Enterprise Plan */}
-            <Card className="bg-white border-gray-200 hover:border-black transition-colors shadow-lg hover:shadow-xl">
+            <Card className="bg-white border-gray-200 hover:border-black transition-colors shadow-lg hover:shadow-xl flex flex-col min-h-[560px]">
               <CardHeader className="text-center">
                 <CardTitle className="text-black">Enterprise</CardTitle>
                 <div className="text-4xl font-bold text-black mb-2">$199</div>
                 <CardDescription className="text-gray-600">/tháng</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4 flex flex-col h-full">
+              <CardContent className="space-y-4 flex-1 flex flex-col justify-between">
                 <ul className="space-y-3 text-sm text-gray-600">
                   <li className="flex items-center">
                     <svg className="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -222,9 +234,11 @@ export default function PricingPage() {
                     Custom Integrations
                   </li>
                 </ul>
-                <Button className="w-full bg-gray-100 text-black hover:bg-gray-200">
-                  <Link href="/contact">Liên hệ bán hàng</Link>
-                </Button>
+                <div className="mt-auto pt-4">
+                  <Button className="w-full bg-gray-100 text-black hover:bg-gray-200">
+                    <Link href="/contact">Liên hệ bán hàng</Link>
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </div>

@@ -1,17 +1,26 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
+import { MarketingAILogo } from "@/components/icons";
+import { SparklesText } from "@/components/magicui/sparkles-text";
+import { AnimatedGradientText } from "@/components/magicui/animated-gradient-text";
+import { RainbowButton } from "@/components/magicui/rainbow-button";
+import { ShinyButton } from "@/components/magicui/shiny-button";
+import { Meteors } from "@/components/magicui/meteors";
+import { DockDemo } from "@/components/DockDemo";
 
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="relative z-10 border-b border-gray-200 bg-white/80 backdrop-blur-xl sticky top-0">
+      <header className="relative z-50 border-b border-gray-200 bg-white/80 backdrop-blur-xl sticky top-0">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <div className="h-8 w-8 rounded-full bg-black"></div>
-              <h1 className="text-xl font-bold text-black">Marketing AI</h1>
+              <MarketingAILogo className="h-8 w-8" />
+              <h1 className="text-xl font-bold text-black">
+                <AnimatedGradientText>Marketing AI</AnimatedGradientText>
+              </h1>
             </div>
             <nav className="hidden md:flex items-center space-x-6">
               <Link href="/" className="text-gray-600 hover:text-black transition-colors">Home</Link>
@@ -27,16 +36,21 @@ export default function AboutPage() {
       </header>
 
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
-        <div className="container mx-auto px-4">
+      <section className="py-20 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+        <Meteors number={10} className="opacity-20" />
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-5xl lg:text-6xl font-bold text-black mb-6">
-              Xây dựng niềm tin
-              <span className="block bg-gradient-to-r from-gray-800 to-black bg-clip-text text-transparent">
-                thông qua AI
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-6 leading-tight">
+              <SparklesText className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight" sparklesCount={8}>
+                Xây dựng niềm tin
+              </SparklesText>
+              <span className="block mt-2">
+                <AnimatedGradientText className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+                  thông qua AI
+                </AnimatedGradientText>
               </span>
             </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
               Chúng tôi tin rằng AI có thể cách mạng hóa marketing, giúp doanh nghiệp 
               kết nối với khách hàng một cách thông minh và hiệu quả hơn bao giờ hết.
             </p>
@@ -45,6 +59,9 @@ export default function AboutPage() {
       </section>
 
       {/* Mission Section */}
+      <div className="mt-4 flex justify-center">
+        <DockDemo />
+      </div>
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -59,12 +76,12 @@ export default function AboutPage() {
                 những công cụ marketing AI mạnh mẽ để phát triển và thành công.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="bg-black hover:bg-gray-800 text-white">
+                <RainbowButton size="lg">
                   <Link href="/features">Khám phá tính năng</Link>
-                </Button>
-                <Button size="lg" variant="outline" className="border-black text-black hover:bg-black hover:text-white">
+                </RainbowButton>
+                <ShinyButton className="bg-white border-gray-200 text-black hover:shadow-lg">
                   <Link href="/pricing">Xem bảng giá</Link>
-                </Button>
+                </ShinyButton>
               </div>
             </div>
             <div className="relative">
@@ -104,45 +121,48 @@ export default function AboutPage() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="bg-white border-gray-200 hover:border-black transition-colors shadow-lg hover:shadow-xl">
-              <CardHeader className="text-center">
+            <Card className="bg-white border-gray-200 hover:border-black transition-colors shadow-lg hover:shadow-xl relative overflow-hidden">
+              <Meteors number={5} />
+              <CardHeader className="text-center relative z-10">
                 <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 mx-auto mb-4 flex items-center justify-center">
                   <span className="text-2xl font-bold text-white">NT</span>
                 </div>
                 <CardTitle className="text-black">Nguyễn Thành</CardTitle>
                 <CardDescription className="text-gray-600">CEO & Founder</CardDescription>
               </CardHeader>
-              <CardContent className="text-center">
+              <CardContent className="text-center relative z-10">
                 <p className="text-gray-600">
                   Chuyên gia AI với 10+ năm kinh nghiệm trong lĩnh vực marketing automation.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="bg-white border-gray-200 hover:border-black transition-colors shadow-lg hover:shadow-xl">
-              <CardHeader className="text-center">
+            <Card className="bg-white border-gray-200 hover:border-black transition-colors shadow-lg hover:shadow-xl relative overflow-hidden">
+              <Meteors number={5} />
+              <CardHeader className="text-center relative z-10">
                 <div className="w-24 h-24 rounded-full bg-gradient-to-br from-green-500 to-blue-600 mx-auto mb-4 flex items-center justify-center">
                   <span className="text-2xl font-bold text-white">LM</span>
                 </div>
                 <CardTitle className="text-black">Lê Minh</CardTitle>
                 <CardDescription className="text-gray-600">CTO</CardDescription>
               </CardHeader>
-              <CardContent className="text-center">
+              <CardContent className="text-center relative z-10">
                 <p className="text-gray-600">
                   Kỹ sư phần mềm với chuyên môn về machine learning và AI systems.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="bg-white border-gray-200 hover:border-black transition-colors shadow-lg hover:shadow-xl">
-              <CardHeader className="text-center">
+            <Card className="bg-white border-gray-200 hover:border-black transition-colors shadow-lg hover:shadow-xl relative overflow-hidden">
+              <Meteors number={5} />
+              <CardHeader className="text-center relative z-10">
                 <div className="w-24 h-24 rounded-full bg-gradient-to-br from-pink-500 to-red-600 mx-auto mb-4 flex items-center justify-center">
                   <span className="text-2xl font-bold text-white">TH</span>
                 </div>
                 <CardTitle className="text-black">Trần Hương</CardTitle>
                 <CardDescription className="text-gray-600">Head of Marketing</CardDescription>
               </CardHeader>
-              <CardContent className="text-center">
+              <CardContent className="text-center relative z-10">
                 <p className="text-gray-600">
                   Chuyên gia marketing digital với kinh nghiệm 8+ năm trong lĩnh vực.
                 </p>
@@ -219,12 +239,12 @@ export default function AboutPage() {
             để phát triển chiến lược marketing thông minh.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-black hover:bg-gray-100">
+            <RainbowButton size="lg">
               <Link href="/register">Bắt đầu miễn phí</Link>
-            </Button>
-            <Button size="lg" variant="outline" className="border-black text-black transition-all duration-200 hover:shadow-lg">
+            </RainbowButton>
+            <ShinyButton className="bg-white border-gray-200 text-black hover:shadow-lg">
               <Link href="/contact">Liên hệ tư vấn</Link>
-            </Button>
+            </ShinyButton>
           </div>
         </div>
       </section>

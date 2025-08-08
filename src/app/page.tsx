@@ -3,60 +3,73 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Globe } from "@/components/magicui/globe";
 import Link from "next/link";
-import { MarketingAILogo, ZapIcon, UsersIcon, ChartIcon, ArrowRightIcon } from "@/components/icons";
+import { MarketingAILogo, ZapIcon, UsersIcon, ChartIcon } from "@/components/icons";
+import { ShinyButton } from "@/components/magicui/shiny-button";
+import { AnimatedGradientText } from "@/components/magicui/animated-gradient-text";
+import { SparklesText } from "@/components/magicui/sparkles-text";
+import { RainbowButton } from "@/components/magicui/rainbow-button";
+import { Meteors } from "@/components/magicui/meteors";
+import { Marquee } from "@/components/magicui/marquee";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
       <header className="relative z-10 border-b border-gray-200 bg-white/80 backdrop-blur-xl sticky top-0">
-        <div className="container mx-auto px-4 py-4">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <MarketingAILogo className="h-8 w-8" />
-              <h1 className="text-xl font-bold text-black">Marketing AI</h1>
+              <MarketingAILogo className="h-6 w-6 sm:h-8 sm:w-8" />
+              <h1 className="text-lg sm:text-xl font-bold text-black">Marketing AI</h1>
             </div>
-            <nav className="hidden md:flex items-center space-x-6">
-              <Link href="/features" className="text-gray-600 hover:text-black transition-colors">Features</Link>
-              <Link href="/pricing" className="text-gray-600 hover:text-black transition-colors">Pricing</Link>
-              <Link href="/about" className="text-gray-600 hover:text-black transition-colors">About</Link>
-              <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white">
+            <nav className="hidden md:flex items-center space-x-4 lg:space-x-6">
+              <Link href="/features" className="text-gray-600 hover:text-black transition-colors text-sm lg:text-base">Features</Link>
+              <Link href="/pricing" className="text-gray-600 hover:text-black transition-colors text-sm lg:text-base">Pricing</Link>
+              <Link href="/about" className="text-gray-600 hover:text-black transition-colors text-sm lg:text-base">About</Link>
+              <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white text-sm">
                 <Link href="/login">Get Started</Link>
               </Button>
             </nav>
+            <Button variant="outline" className="md:hidden border-black text-black hover:bg-black hover:text-white text-sm">
+              <Link href="/login">Start</Link>
+            </Button>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-b from-white to-gray-50">
-        <div className="container mx-auto px-4 py-20">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
-              <div className="space-y-4">
-                <h1 className="text-5xl lg:text-6xl font-bold text-black leading-tight">
-                  AI-Powered
-                  <span className="block bg-gradient-to-r from-gray-800 to-black bg-clip-text text-transparent">
-                    Marketing
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div className="space-y-6 sm:space-y-8">
+              <div className="space-y-3 sm:space-y-4">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black leading-tight">
+                  <SparklesText className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl" sparklesCount={8}>
+                    AI-Powered
+                  </SparklesText>
+                  <span className="block">
+                    <AnimatedGradientText className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold">
+                      Marketing
+                    </AnimatedGradientText>
                   </span>
                   Solutions
                 </h1>
-                <p className="text-xl text-gray-600 max-w-lg">
+                <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-lg">
                   Transform your marketing strategy with cutting-edge AI technology. 
                   Automate campaigns, analyze data, and drive results like never before.
                 </p>
               </div>
               
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="bg-black hover:bg-gray-800 text-white">
+                <RainbowButton size="lg">
                   <Link href="/register">Start Free Trial</Link>
-                </Button>
-                <Button size="lg" variant="outline" className="border-black text-black hover:bg-black hover:text-white">
+                </RainbowButton>
+                <ShinyButton size="lg" className="bg-white border-gray-200 text-black hover:shadow-lg">
                   Watch Demo
-                </Button>
+                </ShinyButton>
               </div>
 
-              <div className="flex items-center space-x-6 text-sm text-gray-600">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-6 space-y-2 sm:space-y-0 text-xs sm:text-sm text-gray-600">
                 <div className="flex items-center space-x-2">
                   <div className="w-2 h-2 bg-green-600 rounded-full"></div>
                   <span>99.9% Uptime</span>
@@ -72,8 +85,8 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="relative">
-              <div className="relative h-[600px] w-full">
+            <div className="relative order-first lg:order-last">
+              <div className="relative h-[300px] sm:h-[400px] lg:h-[600px] w-full">
                 <Globe className="!absolute !inset-0 !mx-auto !w-full !max-w-[600px]" />
               </div>
             </div>
@@ -82,17 +95,20 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
+      <section className="py-20 bg-white relative">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-16">
-            <h2 className="text-4xl font-bold text-black">Powerful Features</h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl font-bold text-black">
+              Powerful <AnimatedGradientText className="text-3xl sm:text-4xl font-bold">Features</AnimatedGradientText>
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
               Everything you need to supercharge your marketing campaigns with AI
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="bg-white border-gray-200 hover:border-black transition-colors shadow-lg hover:shadow-xl">
+            <Card className="bg-white border-gray-200 hover:border-black transition-colors shadow-lg hover:shadow-xl relative overflow-hidden">
+              <Meteors number={10} />
               <CardHeader>
                 <div className="w-12 h-12 rounded-lg bg-black flex items-center justify-center mb-4">
                   <ZapIcon className="w-6 h-6 text-white" />
@@ -104,7 +120,8 @@ export default function Home() {
               </CardHeader>
             </Card>
 
-            <Card className="bg-white border-gray-200 hover:border-black transition-colors shadow-lg hover:shadow-xl">
+            <Card className="bg-white border-gray-200 hover:border-black transition-colors shadow-lg hover:shadow-xl relative overflow-hidden">
+              <Meteors number={8} />
               <CardHeader>
                 <div className="w-12 h-12 rounded-lg bg-gray-800 flex items-center justify-center mb-4">
                   <ChartIcon className="w-6 h-6 text-white" />
@@ -116,7 +133,8 @@ export default function Home() {
               </CardHeader>
             </Card>
 
-            <Card className="bg-white border-gray-200 hover:border-black transition-colors shadow-lg hover:shadow-xl">
+            <Card className="bg-white border-gray-200 hover:border-black transition-colors shadow-lg hover:shadow-xl relative overflow-hidden">
+              <Meteors number={12} />
               <CardHeader>
                 <div className="w-12 h-12 rounded-lg bg-gray-600 flex items-center justify-center mb-4">
                   <UsersIcon className="w-6 h-6 text-white" />
@@ -133,22 +151,39 @@ export default function Home() {
 
       {/* Stats Section */}
       <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Trusted by companies marquee */}
+          <div className="mb-12">
+            <p className="text-center text-gray-600 mb-8">Trusted by leading companies worldwide</p>
+            <Marquee className="py-4" pauseOnHover>
+              <div className="flex items-center space-x-8 mx-8">
+                <div className="text-2xl font-bold text-gray-400">Microsoft</div>
+                <div className="text-2xl font-bold text-gray-400">Google</div>
+                <div className="text-2xl font-bold text-gray-400">Amazon</div>
+                <div className="text-2xl font-bold text-gray-400">Netflix</div>
+                <div className="text-2xl font-bold text-gray-400">Spotify</div>
+                <div className="text-2xl font-bold text-gray-400">Airbnb</div>
+                <div className="text-2xl font-bold text-gray-400">Uber</div>
+                <div className="text-2xl font-bold text-gray-400">Shopify</div>
+              </div>
+            </Marquee>
+          </div>
+          
           <div className="grid md:grid-cols-4 gap-8 text-center">
             <div className="space-y-2">
-              <div className="text-4xl font-bold text-black">10K+</div>
+              <div className="text-3xl sm:text-4xl font-bold text-black">10K+</div>
               <div className="text-gray-600">Active Users</div>
             </div>
             <div className="space-y-2">
-              <div className="text-4xl font-bold text-black">500M+</div>
+              <div className="text-3xl sm:text-4xl font-bold text-black">500M+</div>
               <div className="text-gray-600">Emails Sent</div>
             </div>
             <div className="space-y-2">
-              <div className="text-4xl font-bold text-black">98%</div>
+              <div className="text-3xl sm:text-4xl font-bold text-black">98%</div>
               <div className="text-gray-600">Success Rate</div>
             </div>
             <div className="space-y-2">
-              <div className="text-4xl font-bold text-black">24/7</div>
+              <div className="text-3xl sm:text-4xl font-bold text-black">24/7</div>
               <div className="text-gray-600">Support</div>
             </div>
           </div>
@@ -157,13 +192,14 @@ export default function Home() {
 
       {/* CTA Section */}
       <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <Card className="bg-black border-black shadow-2xl">
-            <CardContent className="p-12 text-center">
-              <h2 className="text-3xl font-bold text-white mb-4">
-                Ready to Transform Your Marketing?
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Card className="bg-black border-black shadow-2xl relative overflow-hidden">
+            <Meteors number={20} />
+            <CardContent className="p-8 sm:p-12 text-center relative z-10">
+              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
+                Ready to Transform Your <SparklesText className="text-2xl sm:text-3xl inline" colors={{ first: "#ffffff", second: "#d1d5db" }} sparklesCount={6}>Marketing</SparklesText>?
               </h2>
-              <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
+              <p className="text-gray-300 mb-8 max-w-2xl mx-auto text-sm sm:text-base">
                 Join thousands of marketers who are already using AI to drive incredible results. 
                 Start your free trial today and see the difference AI can make.
               </p>
@@ -172,9 +208,9 @@ export default function Home() {
                   placeholder="Enter your email" 
                   className="max-w-md bg-white/10 border-white/20 text-white placeholder:text-gray-400"
                 />
-                                 <Button size="lg" className="bg-white text-black hover:bg-gray-100">
-                   <Link href="/register">Get Started Free</Link>
-                 </Button>
+                <RainbowButton size="lg">
+                  <Link href="/register">Get Started Free</Link>
+                </RainbowButton>
               </div>
             </CardContent>
           </Card>

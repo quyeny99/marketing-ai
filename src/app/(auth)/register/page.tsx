@@ -15,6 +15,10 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
+import { RainbowButton } from "@/components/magicui/rainbow-button";
+import { AnimatedGradientText } from "@/components/magicui/animated-gradient-text";
+import { Meteors } from "@/components/magicui/meteors";
+import { SparklesText } from "@/components/magicui/sparkles-text";
 
 const registerSchema = z.object({
   firstName: z.string().min(1, { message: "Vui lòng nhập tên" }),
@@ -51,13 +55,16 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white flex items-center justify-center p-4 relative overflow-hidden">
+      <Meteors number={20} className="opacity-20" />
+      <div className="w-full max-w-md relative z-10">
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center space-x-2 mb-4">
             <MarketingAILogo />
-            <h1 className="text-2xl font-bold text-black">Marketing AI</h1>
+            <h1 className="text-2xl font-bold text-black">
+              <SparklesText className="text-2xl inline" sparklesCount={5}>Marketing AI</SparklesText>
+            </h1>
           </div>
           <p className="text-gray-600">Create your account to get started</p>
         </div>
@@ -65,7 +72,7 @@ export default function RegisterPage() {
         <Card className="bg-white border-gray-200 shadow-xl">
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl font-bold text-black text-center">
-              Create your account
+              Create your <AnimatedGradientText className="text-2xl font-bold">account</AnimatedGradientText>
             </CardTitle>
             <CardDescription className="text-center text-gray-600">
               Join thousands of marketers using AI to drive results
@@ -189,9 +196,9 @@ export default function RegisterPage() {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full bg-black hover:bg-gray-800 text-white">
+                <RainbowButton type="submit" className="w-full">
                   Create Account
-                </Button>
+                </RainbowButton>
               </form>
             </Form>
             <div className="relative">
@@ -203,7 +210,7 @@ export default function RegisterPage() {
               </div>
             </div>
             <div className="flex justify-center">
-              <Button variant="outline" className="border-gray-300 text-black hover:bg-gray-50">
+              <Button variant="outline" className="border-gray-300 text-black hover:bg-gray-50 w-full">
                 <GoogleIcon />
                 Continue with Google
               </Button>

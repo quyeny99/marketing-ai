@@ -1,13 +1,28 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
-import { MarketingAILogo, MailIcon, PhoneIcon, MapPinIcon } from "@/components/icons";
+import {
+  MarketingAILogo,
+  MailIcon,
+  PhoneIcon,
+  MapPinIcon,
+} from "@/components/icons";
+import { ScrollProgress } from "@/components/magicui/scroll-progress";
+import { AuroraText } from "@/components/magicui/aurora-text";
+import { ShimmerButton } from "@/components/magicui/shimmer-button";
 
 export default function ContactPage() {
   return (
     <div className="min-h-screen bg-white">
+      <ScrollProgress />
       {/* Header */}
       <header className="border-b border-gray-200 bg-white sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4">
@@ -16,7 +31,10 @@ export default function ContactPage() {
               <MarketingAILogo className="h-8 w-8" />
               <h1 className="text-xl font-bold text-black">Marketing AI</h1>
             </Link>
-            <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white">
+            <Button
+              variant="outline"
+              className="border-black text-black hover:bg-black hover:text-white"
+            >
               <Link href="/login">Sign In</Link>
             </Button>
           </div>
@@ -27,24 +45,34 @@ export default function ContactPage() {
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-black mb-4">Contact Us</h1>
-            <p className="text-gray-600">Get in touch with our team. We're here to help!</p>
+            <h1 className="text-4xl font-bold text-black mb-4">
+              <AuroraText className="text-4xl">Contact Us</AuroraText>
+            </h1>
+            <p className="text-gray-600">
+              Get in touch with our team. We&apos;re here to help!
+            </p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Contact Form */}
             <Card className="bg-white border-gray-200 shadow-lg">
               <CardHeader>
-                <CardTitle className="text-2xl font-bold text-black">Send us a message</CardTitle>
+                <CardTitle className="text-2xl font-bold text-black">
+                  Send us a message
+                </CardTitle>
                 <CardDescription className="text-gray-600">
-                  Fill out the form below and we'll get back to you within 24 hours.
+                  Fill out the form below and we&apos;ll get back to you within
+                  24 hours.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <form className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <label htmlFor="firstName" className="text-sm font-medium text-black">
+                      <label
+                        htmlFor="firstName"
+                        className="text-sm font-medium text-black"
+                      >
                         First Name
                       </label>
                       <Input
@@ -55,7 +83,10 @@ export default function ContactPage() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label htmlFor="lastName" className="text-sm font-medium text-black">
+                      <label
+                        htmlFor="lastName"
+                        className="text-sm font-medium text-black"
+                      >
                         Last Name
                       </label>
                       <Input
@@ -66,9 +97,12 @@ export default function ContactPage() {
                       />
                     </div>
                   </div>
-                  
+
                   <div className="space-y-2">
-                    <label htmlFor="email" className="text-sm font-medium text-black">
+                    <label
+                      htmlFor="email"
+                      className="text-sm font-medium text-black"
+                    >
                       Email
                     </label>
                     <Input
@@ -80,7 +114,10 @@ export default function ContactPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <label htmlFor="subject" className="text-sm font-medium text-black">
+                    <label
+                      htmlFor="subject"
+                      className="text-sm font-medium text-black"
+                    >
                       Subject
                     </label>
                     <Input
@@ -92,7 +129,10 @@ export default function ContactPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <label htmlFor="message" className="text-sm font-medium text-black">
+                    <label
+                      htmlFor="message"
+                      className="text-sm font-medium text-black"
+                    >
                       Message
                     </label>
                     <Textarea
@@ -102,12 +142,9 @@ export default function ContactPage() {
                     />
                   </div>
 
-                  <Button 
-                    type="submit" 
-                    className="w-full bg-black hover:bg-gray-800 text-white"
-                  >
+                  <ShimmerButton type="submit" className="w-full">
                     Send Message
-                  </Button>
+                  </ShimmerButton>
                 </form>
               </CardContent>
             </Card>
@@ -116,9 +153,12 @@ export default function ContactPage() {
             <div className="space-y-8">
               <Card className="bg-white border-gray-200 shadow-lg">
                 <CardHeader>
-                  <CardTitle className="text-2xl font-bold text-black">Get in touch</CardTitle>
+                  <CardTitle className="text-2xl font-bold text-black">
+                    Get in touch
+                  </CardTitle>
                   <CardDescription className="text-gray-600">
-                    We'd love to hear from you. Here's how you can reach us.
+                    We&apos;d love to hear from you. Here&apos;s how you can
+                    reach us.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
@@ -160,23 +200,40 @@ export default function ContactPage() {
 
               <Card className="bg-white border-gray-200 shadow-lg">
                 <CardHeader>
-                  <CardTitle className="text-2xl font-bold text-black">FAQ</CardTitle>
+                  <CardTitle className="text-2xl font-bold text-black">
+                    FAQ
+                  </CardTitle>
                   <CardDescription className="text-gray-600">
                     Quick answers to common questions
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div>
-                    <h4 className="font-semibold text-black">How do I get started?</h4>
-                    <p className="text-gray-600 text-sm">Sign up for a free trial and explore our AI-powered marketing tools.</p>
+                    <h4 className="font-semibold text-black">
+                      How do I get started?
+                    </h4>
+                    <p className="text-gray-600 text-sm">
+                      Sign up for a free trial and explore our AI-powered
+                      marketing tools.
+                    </p>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-black">What's included in the free trial?</h4>
-                    <p className="text-gray-600 text-sm">Full access to all features for 14 days, no credit card required.</p>
+                    <h4 className="font-semibold text-black">
+                      What&apos;s included in the free trial?
+                    </h4>
+                    <p className="text-gray-600 text-sm">
+                      Full access to all features for 14 days, no credit card
+                      required.
+                    </p>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-black">Do you offer support?</h4>
-                    <p className="text-gray-600 text-sm">Yes! We provide 24/7 customer support via email and live chat.</p>
+                    <h4 className="font-semibold text-black">
+                      Do you offer support?
+                    </h4>
+                    <p className="text-gray-600 text-sm">
+                      Yes! We provide 24/7 customer support via email and live
+                      chat.
+                    </p>
                   </div>
                 </CardContent>
               </Card>
@@ -193,4 +250,4 @@ export default function ContactPage() {
       </footer>
     </div>
   );
-} 
+}

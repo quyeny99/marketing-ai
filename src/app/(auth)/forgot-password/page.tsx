@@ -1,6 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { MarketingAILogo } from "@/components/icons";
@@ -15,6 +21,9 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
+import { RainbowButton } from "@/components/magicui/rainbow-button";
+import { AnimatedGradientText } from "@/components/magicui/animated-gradient-text";
+import { Meteors } from "@/components/magicui/meteors";
 
 const forgotPasswordSchema = z.object({
   email: z.string().email({ message: "Email không hợp lệ" }),
@@ -36,13 +45,16 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white flex items-center justify-center p-4 relative overflow-hidden">
+      <Meteors number={12} className="opacity-25" />
+      <div className="w-full max-w-md relative z-10">
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center space-x-2 mb-4">
             <MarketingAILogo />
-            <h1 className="text-2xl font-bold text-black">Marketing AI</h1>
+            <h1 className="text-2xl font-bold text-black">
+              <AnimatedGradientText>Marketing AI</AnimatedGradientText>
+            </h1>
           </div>
           <p className="text-gray-600">Reset your password</p>
         </div>
@@ -50,15 +62,18 @@ export default function ForgotPasswordPage() {
         <Card className="bg-white border-gray-200 shadow-xl">
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl font-bold text-black text-center">
-              Forgot your password?
+              Forgot your <AnimatedGradientText className="text-2xl font-bold">password</AnimatedGradientText>?
             </CardTitle>
             <CardDescription className="text-center text-gray-600">
-              No worries, we'll send you reset instructions.
+              No worries, we&apos;ll send you reset instructions.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <Form {...form}>
-              <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+              <form
+                className="space-y-4"
+                onSubmit={form.handleSubmit(onSubmit)}
+              >
                 <FormField
                   control={form.control}
                   name="email"
@@ -66,20 +81,27 @@ export default function ForgotPasswordPage() {
                     <FormItem>
                       <FormLabel>Email</FormLabel>
                       <FormControl>
-                        <Input type="email" placeholder="Enter your email" {...field} />
+                        <Input
+                          type="email"
+                          placeholder="Enter your email"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full bg-black hover:bg-gray-800 text-white">
+                <RainbowButton type="submit" className="w-full">
                   Send reset instructions
-                </Button>
+                </RainbowButton>
               </form>
             </Form>
             <div className="text-center text-sm text-gray-600">
               Remember your password?{" "}
-              <Link href="/login" className="text-black hover:underline font-medium">
+              <Link
+                href="/login"
+                className="text-black hover:underline font-medium"
+              >
                 Back to login
               </Link>
             </div>
@@ -95,4 +117,4 @@ export default function ForgotPasswordPage() {
       </div>
     </div>
   );
-} 
+}

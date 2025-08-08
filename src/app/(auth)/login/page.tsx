@@ -15,6 +15,9 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
+import { RainbowButton } from "@/components/magicui/rainbow-button";
+import { AnimatedGradientText } from "@/components/magicui/animated-gradient-text";
+import { Meteors } from "@/components/magicui/meteors";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Email không hợp lệ" }),
@@ -41,13 +44,16 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white flex items-center justify-center p-4 relative overflow-hidden">
+      <Meteors number={15} className="opacity-30" />
+      <div className="w-full max-w-md relative z-10">
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center space-x-2 mb-4">
             <MarketingAILogo />
-            <h1 className="text-2xl font-bold text-black">Marketing AI</h1>
+            <h1 className="text-2xl font-bold text-black">
+              <AnimatedGradientText>Marketing AI</AnimatedGradientText>
+            </h1>
           </div>
           <p className="text-gray-600">Welcome back to your dashboard</p>
         </div>
@@ -124,9 +130,9 @@ export default function LoginPage() {
                     Forgot password?
                   </Link>
                 </div>
-                <Button type="submit" className="w-full bg-black hover:bg-gray-800 text-white">
+                <RainbowButton type="submit" className="w-full">
                   Sign in
-                </Button>
+                </RainbowButton>
               </form>
             </Form>
             <div className="relative">
@@ -138,13 +144,13 @@ export default function LoginPage() {
               </div>
             </div>
             <div className="flex justify-center">
-              <Button variant="outline" className="border-gray-300 text-black hover:bg-gray-50">
+              <Button variant="outline" className="border-gray-300 text-black hover:bg-gray-50 w-full">
                 <GoogleIcon />
                 Continue with Google
               </Button>
             </div>
             <div className="text-center text-sm text-gray-600">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Link href="/register" className="text-black hover:underline font-medium">
                 Sign up
               </Link>

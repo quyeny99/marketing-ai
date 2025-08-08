@@ -1,10 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
+import { ScrollProgress } from "@/components/magicui/scroll-progress";
+import { MagicCard } from "@/components/magicui/magic-card";
 
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-white">
+      <ScrollProgress />
       {/* Header */}
       <header className="border-b border-gray-200 bg-white sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4">
@@ -28,8 +31,9 @@ export default function PrivacyPage() {
             <p className="text-gray-600">Last updated: December 2024</p>
           </div>
 
-          <Card className="bg-white border-gray-200 shadow-lg">
-            <CardContent className="p-8 space-y-8">
+          <MagicCard className="rounded-xl">
+            <Card className="bg-white border-gray-200 shadow-lg rounded-xl">
+              <CardContent className="p-8 space-y-8">
               <section>
                 <h2 className="text-2xl font-bold text-black mb-4">1. Information We Collect</h2>
                 <p className="text-gray-700 leading-relaxed mb-4">
@@ -103,7 +107,7 @@ export default function PrivacyPage() {
               </section>
 
               <section>
-                <h2 className="text-2xl font-bold text-black mb-4">7. Children's Privacy</h2>
+                <h2 className="text-2xl font-bold text-black mb-4">7. Children&apos;s Privacy</h2>
                 <p className="text-gray-700 leading-relaxed">
                   Our services are not intended for children under 13. We do not knowingly collect personal information from children under 13. If you believe we have collected such information, please contact us immediately.
                 </p>
@@ -112,7 +116,7 @@ export default function PrivacyPage() {
               <section>
                 <h2 className="text-2xl font-bold text-black mb-4">8. Changes to This Policy</h2>
                 <p className="text-gray-700 leading-relaxed">
-                  We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date.
+                  We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the &quot;Last updated&quot; date.
                 </p>
               </section>
 
@@ -126,8 +130,9 @@ export default function PrivacyPage() {
                   <p className="text-gray-700">Address: 123 AI Street, Tech City, TC 12345</p>
                 </div>
               </section>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </MagicCard>
 
           {/* CTA */}
           <div className="text-center mt-12">

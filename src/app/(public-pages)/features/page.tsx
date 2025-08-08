@@ -1,8 +1,19 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
+import { EditIcon, BrainIcon, SearchAnalyticsIcon, AutomationIcon, TargetIcon, SecurityIcon, SupportIcon, MarketingAILogo } from "@/components/icons";
+import { SparklesText } from "@/components/magicui/sparkles-text";
+import { AnimatedGradientText } from "@/components/magicui/animated-gradient-text";
+import { RainbowButton } from "@/components/magicui/rainbow-button";
+import { ShinyButton } from "@/components/magicui/shiny-button";
+import { Meteors } from "@/components/magicui/meteors";
+// removed AnimatedBeam demo
+// React Image/refs no longer needed after removing AnimatedBeam demo
 
 export default function FeaturesPage() {
+  
+
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
@@ -10,8 +21,10 @@ export default function FeaturesPage() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <div className="h-8 w-8 rounded-full bg-black"></div>
-              <h1 className="text-xl font-bold text-black">Marketing AI</h1>
+              <MarketingAILogo className="h-8 w-8" />
+              <h1 className="text-xl font-bold text-black">
+                <AnimatedGradientText>Marketing AI</AnimatedGradientText>
+              </h1>
             </div>
             <nav className="hidden md:flex items-center space-x-6">
               <Link href="/" className="text-gray-600 hover:text-black transition-colors">Home</Link>
@@ -31,9 +44,13 @@ export default function FeaturesPage() {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-5xl lg:text-6xl font-bold text-black mb-6">
-              Tính năng AI
-              <span className="block bg-gradient-to-r from-gray-800 to-black bg-clip-text text-transparent">
-                mạnh mẽ
+              <SparklesText className="text-5xl lg:text-6xl" sparklesCount={12}>
+                Tính năng AI
+              </SparklesText>
+              <span className="block">
+                <AnimatedGradientText className="text-5xl lg:text-6xl font-bold">
+                  mạnh mẽ
+                </AnimatedGradientText>
               </span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
@@ -41,34 +58,37 @@ export default function FeaturesPage() {
               mọi khía cạnh của chiến lược marketing của bạn.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-black hover:bg-gray-800 text-white">
+              <RainbowButton size="lg">
                 <Link href="/pricing">Bắt đầu dùng thử</Link>
-              </Button>
-              <Button size="lg" variant="secondary" className="bg-black hover:bg-gray-800 text-white">
+              </RainbowButton>
+              <ShinyButton size="lg" className="bg-white border-gray-200 text-black hover:shadow-lg">
                 <Link href="/demo">Xem demo</Link>
-              </Button>
+              </ShinyButton>
             </div>
           </div>
         </div>
       </section>
 
+      {/* Removed Animated Beam Integrations section per request */}
+
       {/* AI Content Tools */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-black mb-4">AI Content Creation</h2>
+            <h2 className="text-4xl font-bold text-black mb-4">
+              AI <AnimatedGradientText className="text-4xl font-bold">Content Creation</AnimatedGradientText>
+            </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Tạo nội dung chất lượng cao với sự hỗ trợ của AI
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="bg-white border-gray-200 hover:border-black transition-colors shadow-lg hover:shadow-xl">
+            <Card className="bg-white border-gray-200 hover:border-black transition-colors shadow-lg hover:shadow-xl relative overflow-hidden">
+              <Meteors number={8} />
               <CardHeader>
                 <div className="w-12 h-12 rounded-lg bg-black flex items-center justify-center mb-4">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                  </svg>
+                  <EditIcon className="w-6 h-6 text-white" />
                 </div>
                 <CardTitle className="text-black">AI Copywriting</CardTitle>
                 <CardDescription className="text-gray-600">

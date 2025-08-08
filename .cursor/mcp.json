@@ -9,6 +9,11 @@
           "@magicuidesign/mcp@latest"
         ]
       },
+      "origin-ui": {
+      "command": "npx",
+      "args": ["--yes", "github:kelvinchng/origin-ui-mcp"],
+      "env": {}
+    },
       "supabase": {
         "command": "npx",
         "args": [
