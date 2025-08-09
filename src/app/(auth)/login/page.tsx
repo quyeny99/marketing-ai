@@ -37,10 +37,8 @@ export default function LoginPage() {
     },
   });
 
-  function onSubmit(values: LoginFormValues) {
-    // Xử lý đăng nhập ở đây
-    // Ví dụ: router.push("/dashboard")
-    alert("Đăng nhập thành công! (demo)");
+  async function onSubmit(values: LoginFormValues) {
+    console.log(values);
   }
 
   return (

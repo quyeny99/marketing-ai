@@ -15,13 +15,15 @@
       "env": {}
     },
       "supabase": {
-        "command": "npx",
+        "command": "cmd",
         "args": [
-            "-y",
-            "@supabase/mcp-server-supabase@latest",
-            "--access-token",
-            "sbp_430413f526ec800ddf12755243189966cd254054"
+          "/c",
+          "npx",
+          "-y",
+          "@supabase/mcp-server-supabase@latest",
+          "--access-token",
+          "${SUPABASE_ACCESS_TOKEN}"
         ]
-        }
+      }
     }
 }

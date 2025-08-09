@@ -59,6 +59,17 @@ npm run build
 npm start
 ```
 
+### Biến môi trường
+
+Tạo file `.env.local` với các biến sau để kết nối Supabase:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+```
+
+Tham khảo dự án Supabase để lấy URL và anon key.
+
 ## 📁 Cấu trúc thư mục
 
 ```

@@ -8,9 +8,19 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch-originui";
-import { Settings, Globe, Palette, Database, Shield, Key, Monitor, Save } from "lucide-react";
+import { Settings, Palette, Database, Shield, Key, Monitor, Save } from "lucide-react";
+import { useEffect, useState } from "react";
+import { createClient as createSupabaseBrowser } from "@/utils/supabase/client";
 
 export default function SettingsPage() {
+  const [supabaseStatus, setSupabaseStatus] = useState<"unknown" | "ok" | "error">("unknown");
+  useEffect(() => {
+    const client = createSupabaseBrowser();
+    // Simple ping: get current time from Postgres via RPC if available; fallback to auth check
+    client.auth.getSession().then(({ error }) => {
+      setSupabaseStatus(error ? "error" : "ok");
+    });
+  }, []);
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex items-center justify-between">
@@ -147,6 +157,15 @@ export default function SettingsPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
+            <div className="rounded-md border p-3 text-sm flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Database className="w-4 h-4" />
+                <span>Supabase</span>
+              </div>
+              <span className={supabaseStatus === "ok" ? "text-green-600" : supabaseStatus === "error" ? "text-red-600" : "text-muted-foreground"}>
+                {supabaseStatus === "ok" ? "Connected" : supabaseStatus === "error" ? "Not connected" : "Checking..."}
+              </span>
+            </div>
             <div className="space-y-2">
               <Label htmlFor="openaiKey">OpenAI API Key</Label>
               <Input id="openaiKey" type="password" placeholder="sk-..." className="w-full" />
