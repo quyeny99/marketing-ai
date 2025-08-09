@@ -14,16 +14,16 @@
       "args": ["--yes", "github:kelvinchng/origin-ui-mcp"],
       "env": {}
     },
-      "supabase": {
-        "command": "cmd",
-        "args": [
-          "/c",
-          "npx",
-          "-y",
-          "@supabase/mcp-server-supabase@latest",
-          "--access-token",
-          "${SUPABASE_ACCESS_TOKEN}"
-        ]
-      }
+    "supabase": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@supabase/mcp-server-supabase@latest",
+        "--access-token",
+        "${SUPABASE_ACCESS_TOKEN}"
+      ]
+    }
     }
 }

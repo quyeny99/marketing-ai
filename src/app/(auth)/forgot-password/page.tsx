@@ -22,6 +22,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { RainbowButton } from "@/components/magicui/rainbow-button";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 import { AnimatedGradientText } from "@/components/magicui/animated-gradient-text";
 import { Meteors } from "@/components/magicui/meteors";
 
@@ -39,9 +42,18 @@ export default function ForgotPasswordPage() {
     },
   });
 
-  function onSubmit(values: ForgotPasswordFormValues) {
-    // Xử lý gửi email reset ở đây
-    alert("Đã gửi hướng dẫn đặt lại mật khẩu! (demo)");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  async function onSubmit(values: ForgotPasswordFormValues) {
+    setIsSubmitting(true);
+    try {
+      // TODO: integrate supabase.auth.resetPasswordForEmail(values.email)
+      await new Promise((r) => setTimeout(r, 800));
+      toast.success("Reset instructions sent to your email");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Failed to send reset email");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -91,8 +103,15 @@ export default function ForgotPasswordPage() {
                     </FormItem>
                   )}
                 />
-                <RainbowButton type="submit" className="w-full">
-                  Send reset instructions
+                <RainbowButton type="submit" className="w-full" disabled={isSubmitting}>
+                  {isSubmitting ? (
+                    <span className="inline-flex items-center gap-2">
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Sending...
+                    </span>
+                  ) : (
+                    "Send reset instructions"
+                  )}
                 </RainbowButton>
               </form>
             </Form>

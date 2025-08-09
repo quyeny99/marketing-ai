@@ -8,9 +8,24 @@ import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch-originui";
-import { User, Mail, Phone, MapPin, Calendar, Edit } from "lucide-react";
+import { User, Edit } from "lucide-react";
+import { useSupabaseAuth } from "@/hooks/use-supabase-auth";
 
 export default function ProfilePage() {
+  const { user, isLoading } = useSupabaseAuth();
+  const email = user?.email ?? "";
+  const firstName = (user?.user_metadata?.first_name as string | undefined) ?? "";
+  const lastName = (user?.user_metadata?.last_name as string | undefined) ?? "";
+  const fullNameMeta = (user?.user_metadata?.full_name as string | undefined) ?? "";
+  const displayName = fullNameMeta || [firstName, lastName].filter(Boolean).join(" ") || (email ? email.split("@")[0] : "User");
+  const avatarUrl = (user?.user_metadata?.avatar_url as string | undefined) || "/placeholder-avatar.jpg";
+  const initials = (displayName || "U")
+    .split(" ")
+    .filter(Boolean)
+    .map((s) => s[0]!.toUpperCase())
+    .slice(0, 2)
+    .join("");
+
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex items-center justify-between">
@@ -39,12 +54,12 @@ export default function ProfilePage() {
           <CardContent className="space-y-4">
             <div className="flex items-center gap-4">
               <Avatar className="w-20 h-20">
-                <AvatarImage src="/placeholder-avatar.jpg" alt="Avatar" />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarImage src={avatarUrl} alt="Avatar" />
+                <AvatarFallback>{initials}</AvatarFallback>
               </Avatar>
               <div>
-                <h3 className="font-semibold">Nguyễn Văn A</h3>
-                <p className="text-sm text-muted-foreground">Quản trị viên</p>
+                <h3 className="font-semibold">{isLoading ? "Loading..." : displayName}</h3>
+                <p className="text-sm text-muted-foreground">{email}</p>
               </div>
             </div>
             <Separator />
@@ -52,24 +67,24 @@ export default function ProfilePage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="firstName">Họ</Label>
-                  <Input id="firstName" defaultValue="Nguyễn" className="w-full" />
+                  <Input id="firstName" defaultValue={firstName} className="w-full" />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="lastName">Tên</Label>
-                  <Input id="lastName" defaultValue="Văn A" className="w-full" />
+                  <Input id="lastName" defaultValue={lastName} className="w-full" />
                 </div>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" defaultValue="nguyenvana@example.com" className="w-full" />
+                <Input id="email" type="email" defaultValue={email} className="w-full" />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="phone">Số điện thoại</Label>
-                <Input id="phone" defaultValue="+84 123 456 789" className="w-full" />
+                <Input id="phone" defaultValue="" className="w-full" />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="address">Địa chỉ</Label>
-                <Textarea id="address" defaultValue="123 Đường ABC, Quận 1, TP.HCM" className="w-full resize-none" />
+                <Textarea id="address" defaultValue="" className="w-full resize-none" />
               </div>
             </div>
           </CardContent>
@@ -86,7 +101,7 @@ export default function ProfilePage() {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="username">Tên đăng nhập</Label>
-              <Input id="username" defaultValue="nguyenvana" className="w-full" />
+              <Input id="username" defaultValue="" className="w-full" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="currentPassword">Mật khẩu hiện tại</Label>
@@ -115,19 +130,19 @@ export default function ProfilePage() {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="companyName">Tên công ty</Label>
-              <Input id="companyName" defaultValue="Công ty TNHH ABC" className="w-full" />
+              <Input id="companyName" defaultValue="" className="w-full" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="position">Chức vụ</Label>
-              <Input id="position" defaultValue="Marketing Manager" className="w-full" />
+              <Input id="position" defaultValue="" className="w-full" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="department">Phòng ban</Label>
-              <Input id="department" defaultValue="Marketing" className="w-full" />
+              <Input id="department" defaultValue="" className="w-full" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="companyAddress">Địa chỉ công ty</Label>
-              <Textarea id="companyAddress" defaultValue="456 Đường XYZ, Quận 3, TP.HCM" className="w-full resize-none" />
+              <Textarea id="companyAddress" defaultValue="" className="w-full resize-none" />
             </div>
           </CardContent>
         </Card>

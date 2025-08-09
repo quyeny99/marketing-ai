@@ -16,8 +16,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { RainbowButton } from "@/components/magicui/rainbow-button";
+import { useSupabaseAuth } from "@/hooks/use-supabase-auth";
 import { AnimatedGradientText } from "@/components/magicui/animated-gradient-text";
 import { Meteors } from "@/components/magicui/meteors";
+import { toast } from "sonner";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Loader2 } from "lucide-react";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Email không hợp lệ" }),
@@ -28,17 +33,34 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
+  const searchParams = useSearchParams();
+  const checkEmail = searchParams.get("checkEmail") || "";
+  const { signInWithPassword, signInWithGoogle, user } = useSupabaseAuth();
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isOAuthing, setIsOAuthing] = useState(false);
+  useEffect(() => {
+    if (user) router.replace("/dashboard");
+  }, [user, router]);
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "",
+      email: checkEmail || "",
       password: "",
       remember: false,
     },
   });
 
   async function onSubmit(values: LoginFormValues) {
-    console.log(values);
+    setIsSubmitting(true);
+    const err = await signInWithPassword(values.email, values.password);
+    setIsSubmitting(false);
+    if (err) {
+      toast.error(err);
+      return;
+    }
+    toast.success("Logged in successfully");
+    router.push("/dashboard");
   }
 
   return (
@@ -128,8 +150,15 @@ export default function LoginPage() {
                     Forgot password?
                   </Link>
                 </div>
-                <RainbowButton type="submit" className="w-full">
-                  Sign in
+                <RainbowButton type="submit" className="w-full" disabled={isSubmitting}>
+                  {isSubmitting ? (
+                    <span className="inline-flex items-center gap-2">
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Signing in...
+                    </span>
+                  ) : (
+                    "Sign in"
+                  )}
                 </RainbowButton>
               </form>
             </Form>
@@ -142,9 +171,29 @@ export default function LoginPage() {
               </div>
             </div>
             <div className="flex justify-center">
-              <Button variant="outline" className="border-gray-300 text-black hover:bg-gray-50 w-full">
-                <GoogleIcon />
-                Continue with Google
+              <Button
+                variant="outline"
+                className="border-gray-300 text-black hover:bg-gray-50 w-full"
+                onClick={async () => {
+                  if (isOAuthing) return;
+                  setIsOAuthing(true);
+                  const err = await signInWithGoogle();
+                  setIsOAuthing(false);
+                  if (err) toast.error(err);
+                }}
+                disabled={isSubmitting || isOAuthing}
+              >
+                {isOAuthing ? (
+                  <span className="inline-flex items-center gap-2">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Redirecting...
+                  </span>
+                ) : (
+                  <>
+                    <GoogleIcon />
+                    Continue with Google
+                  </>
+                )}
               </Button>
             </div>
             <div className="text-center text-sm text-gray-600">

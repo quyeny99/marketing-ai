@@ -18,6 +18,11 @@ import {
 import { RainbowButton } from "@/components/magicui/rainbow-button";
 import { AnimatedGradientText } from "@/components/magicui/animated-gradient-text";
 import { Meteors } from "@/components/magicui/meteors";
+import { useSupabaseAuth } from "@/hooks/use-supabase-auth";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Loader2 } from "lucide-react";
 import { SparklesText } from "@/components/magicui/sparkles-text";
 
 const registerSchema = z.object({
@@ -36,6 +41,12 @@ const registerSchema = z.object({
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
 export default function RegisterPage() {
+  const { signUpWithPassword, user } = useSupabaseAuth();
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  useEffect(() => {
+    if (user) router.replace("/dashboard");
+  }, [user, router]);
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -49,9 +60,16 @@ export default function RegisterPage() {
     },
   });
 
-  function onSubmit(values: RegisterFormValues) {
-    // Xử lý đăng ký ở đây
-    alert("Đăng ký thành công! (demo)");
+  async function onSubmit(values: RegisterFormValues) {
+    setIsSubmitting(true);
+    const err = await signUpWithPassword(values.email, values.password, values.firstName, values.lastName);
+    setIsSubmitting(false);
+    if (err) {
+      toast.error(err);
+      return;
+    }
+    toast.success("Sign up successful. Please check your email to confirm.");
+    router.push("/dashboard");
   }
 
   return (
@@ -196,8 +214,15 @@ export default function RegisterPage() {
                     </FormItem>
                   )}
                 />
-                <RainbowButton type="submit" className="w-full">
-                  Create Account
+                <RainbowButton type="submit" className="w-full" disabled={isSubmitting}>
+                  {isSubmitting ? (
+                    <span className="inline-flex items-center gap-2">
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Creating...
+                    </span>
+                  ) : (
+                    "Create Account"
+                  )}
                 </RainbowButton>
               </form>
             </Form>

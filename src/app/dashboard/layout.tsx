@@ -2,6 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useMemo, useCallback } from "react";
+import { toast } from "sonner";
+import { useSupabaseAuth } from "@/hooks/use-supabase-auth";
 import {
   Sidebar,
   SidebarContent,
@@ -55,6 +59,32 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const { user, signOut, isLoading } = useSupabaseAuth();
+
+  const { name, email, avatarUrl, initials } = useMemo(() => {
+    const email = user?.email ?? "";
+    const fullName = (user?.user_metadata?.full_name as string | undefined) || "";
+    const name = fullName || (email ? email.split("@")[0] : "User");
+    const avatarUrl = (user?.user_metadata?.avatar_url as string | undefined) || "/placeholder-avatar.jpg";
+    const initials = (name || "U")
+      .split(" ")
+      .filter(Boolean)
+      .map((s: string) => s[0]!.toUpperCase())
+      .slice(0, 2)
+      .join("");
+    return { name, email, avatarUrl, initials };
+  }, [user]);
+
+  const handleSignOut = useCallback(async () => {
+    const error = await signOut();
+    if (error) {
+      toast.error(error);
+      return;
+    }
+    toast.success("Signed out");
+    router.push("/login");
+  }, [router, signOut]);
 
   const isActive = (href: string) => pathname === href;
 
@@ -265,10 +295,12 @@ export default function DashboardLayout({
             </SidebarMenuItem>
           </SidebarMenu>
           <div className="mt-2 flex items-center gap-2 px-2 py-1 text-xs text-gray-600">
-            <div className="h-6 w-6 rounded-full bg-black" />
+            <div className="h-6 w-6 rounded-full bg-black overflow-hidden">
+              {/* Decorative dot; avatar shown in topbar */}
+            </div>
             <div>
-              <div className="font-medium text-black">shadcn</div>
-              <div>m@example.com</div>
+              <div className="font-medium text-black truncate max-w-[140px]">{isLoading ? "Loading..." : name}</div>
+              <div className="truncate max-w-[160px]">{isLoading ? "" : email}</div>
             </div>
           </div>
         </SidebarFooter>
@@ -305,18 +337,16 @@ export default function DashboardLayout({
               <DropdownMenuTrigger asChild>
                 <button className="flex items-center gap-2 hover:opacity-80 transition-opacity rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shrink-0">
                   <Avatar className="w-6 h-6 sm:w-8 sm:h-8">
-                    <AvatarImage src="/placeholder-avatar.jpg" alt="User avatar" />
-                    <AvatarFallback className="text-xs sm:text-sm">CN</AvatarFallback>
+                    <AvatarImage src={avatarUrl} alt="User avatar" />
+                    <AvatarFallback className="text-xs sm:text-sm">{initials}</AvatarFallback>
                   </Avatar>
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">Nguyễn Văn A</p>
-                    <p className="text-xs leading-none text-muted-foreground">
-                      nguyenvana@example.com
-                    </p>
+                    <p className="text-sm font-medium leading-none truncate">{name}</p>
+                    <p className="text-xs leading-none text-muted-foreground truncate">{email}</p>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
@@ -346,7 +376,7 @@ export default function DashboardLayout({
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="flex items-center gap-2 text-red-600 focus:text-red-600">
+                <DropdownMenuItem onClick={handleSignOut} className="flex items-center gap-2 text-red-600 focus:text-red-600 cursor-pointer">
                   <LogOut className="w-4 h-4" />
                   <span>Đăng xuất</span>
                 </DropdownMenuItem>
