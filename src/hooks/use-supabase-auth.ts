@@ -1,63 +1,109 @@
 "use client";
 
-import useSWR from "swr";
 import { createClient } from "@/utils/supabase/client";
-import type { User } from "@supabase/supabase-js";
 
 const supabase = createClient();
 
-async function fetchUser(): Promise<{ user: User | null; error?: string }> {
-  const { data, error } = await supabase.auth.getUser();
-  return { user: data.user ?? null, error: error?.message };
-}
-
 export function useSupabaseAuth() {
-  const { data, error, isLoading, mutate } = useSWR("supabase-user", fetchUser, {
-    revalidateOnFocus: true,
-  });
 
   async function signInWithPassword(email: string, password: string) {
-    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-    if (!signInError) await mutate();
-    return signInError?.message;
+    try {
+      const { data, error: signInError } = await supabase.auth.signInWithPassword({ 
+        email, 
+        password 
+      });
+      
+      if (signInError) {
+        console.error("Sign in error:", signInError);
+        return signInError.message;
+      }
+      
+      if (data.user) {
+        console.log("Sign in successful:", data.user.id);
+      }
+      
+      return undefined;
+    } catch (error) {
+      console.error("Unexpected sign in error:", error);
+      return "An unexpected error occurred during sign in";
+    }
   }
 
   async function signUpWithPassword(email: string, password: string, firstName: string, lastName: string) {
-    const { error: signUpError } = await supabase.auth.signUp({ email, password, options: {
-      data: {
-        first_name: firstName,
-        last_name: lastName,
-      },
-    } });
-    if (!signUpError) await mutate();
-    return signUpError?.message;
+    try {
+      const { data, error: signUpError } = await supabase.auth.signUp({ 
+        email, 
+        password, 
+        options: {
+          data: {
+            first_name: firstName,
+            last_name: lastName,
+          },
+        },
+      });
+      
+      if (signUpError) {
+        console.error("Sign up error:", signUpError);
+        return signUpError.message;
+      }
+      
+      if (data.user) {
+        console.log("Sign up successful:", data.user.id);
+      }
+      
+      return undefined;
+    } catch (error) {
+      console.error("Unexpected sign up error:", error);
+      return "An unexpected error occurred during sign up";
+    }
   }
 
   async function signOut() {
-    const { error: signOutError } = await supabase.auth.signOut();
-    await mutate();
-    return signOutError?.message;
+    try {
+      const { error: signOutError } = await supabase.auth.signOut();
+      
+      if (signOutError) {
+        console.error("Sign out error:", signOutError);
+        return signOutError.message;
+      }
+      
+      // User state will be updated by AuthContext
+      console.log("Sign out successful");
+      return undefined;
+    } catch (error) {
+      console.error("Unexpected sign out error:", error);
+      return "An unexpected error occurred during sign out";
+    }
   }
 
   async function signInWithGoogle() {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: typeof window !== "undefined" ? `${window.location.origin}/dashboard` : undefined,
-      },
-    });
-    return error?.message;
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: typeof window !== "undefined" ? `${window.location.origin}/dashboard` : undefined,
+        },
+      });
+      
+      if (error) {
+        console.error("Google sign in error:", error);
+        return error.message;
+      }
+      
+      return undefined;
+    } catch (error) {
+      console.error("Unexpected Google sign in error:", error);
+      return "An unexpected error occurred during Google sign in";
+    }
   }
 
+
+
   return {
-    user: data?.user ?? null,
-    isLoading,
-    error: error?.message ?? data?.error,
     signInWithPassword,
     signUpWithPassword,
     signInWithGoogle,
     signOut,
-    refresh: mutate,
   } as const;
 }
 

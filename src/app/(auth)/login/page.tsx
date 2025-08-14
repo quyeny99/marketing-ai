@@ -16,6 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { RainbowButton } from "@/components/magicui/rainbow-button";
+import { useAuth } from "@/contexts/auth-context";
 import { useSupabaseAuth } from "@/hooks/use-supabase-auth";
 import { AnimatedGradientText } from "@/components/magicui/animated-gradient-text";
 import { Meteors } from "@/components/magicui/meteors";
@@ -35,13 +36,16 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 export default function LoginPage() {
   const searchParams = useSearchParams();
   const checkEmail = searchParams.get("checkEmail") || "";
-  const { signInWithPassword, signInWithGoogle, user } = useSupabaseAuth();
+  const { user, isLoading } = useAuth();
+  const { signInWithPassword, signInWithGoogle } = useSupabaseAuth();
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isOAuthing, setIsOAuthing] = useState(false);
   useEffect(() => {
-    if (user) router.replace("/dashboard");
-  }, [user, router]);
+    if (user && !isLoading) {
+      router.replace("/dashboard");
+    }
+  }, [user, isLoading, router]);
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {

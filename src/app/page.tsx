@@ -85,7 +85,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="relative order-first lg:order-last">
+            <div className="relative order-first lg:order-last hidden md:block">
               <div className="relative h-[300px] sm:h-[400px] lg:h-[600px] w-full">
                 <Globe className="!absolute !inset-0 !mx-auto !w-full !max-w-[600px]" />
               </div>

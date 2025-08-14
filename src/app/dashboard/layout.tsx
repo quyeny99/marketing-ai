@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { useMemo, useCallback } from "react";
+import { useMemo, useCallback, useEffect } from "react";
 import { toast } from "sonner";
+import { useAuth } from "@/contexts/auth-context";
 import { useSupabaseAuth } from "@/hooks/use-supabase-auth";
 import {
   Sidebar,
@@ -60,7 +61,8 @@ export default function DashboardLayout({
 }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { user, signOut, isLoading } = useSupabaseAuth();
+  const { user, isLoading, isInitialized } = useAuth();
+  const { signOut } = useSupabaseAuth();
 
   const { name, email, avatarUrl, initials } = useMemo(() => {
     const email = user?.email ?? "";
@@ -77,13 +79,20 @@ export default function DashboardLayout({
   }, [user]);
 
   const handleSignOut = useCallback(async () => {
-    const error = await signOut();
-    if (error) {
-      toast.error(error);
-      return;
+    try {
+      const error = await signOut();
+      if (error) {
+        toast.error(error);
+        return;
+      }
+      
+      toast.success("Signed out");
+      // Redirect immediately after successful sign out
+      router.push("/login");
+    } catch (error) {
+      console.error("Sign out error:", error);
+      toast.error("Failed to sign out");
     }
-    toast.success("Signed out");
-    router.push("/login");
   }, [router, signOut]);
 
   const isActive = (href: string) => pathname === href;
@@ -129,6 +138,30 @@ export default function DashboardLayout({
   };
 
   const breadcrumbs = getBreadcrumbData();
+
+  // Use useEffect for redirects to avoid setState during render
+  useEffect(() => {
+    if (isInitialized && !isLoading && !user) {
+      router.replace("/login");
+    }
+  }, [isInitialized, isLoading, user, router]);
+
+  // Show loading state while auth is initializing
+  if (!isInitialized || isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render anything while redirecting
+  if (!user) {
+    return null;
+  }
 
   return (
     <SidebarProvider defaultOpen={false}>
