@@ -29,15 +29,24 @@ export function useSupabaseAuth() {
     }
   }
 
-  async function signUpWithPassword(email: string, password: string, firstName: string, lastName: string) {
+  async function signUpWithPassword(
+    email: string, 
+    password: string, 
+    firstName: string, 
+    lastName: string, 
+    newsletter: boolean = false, 
+    terms: boolean = false
+  ) {
     try {
       const { data, error: signUpError } = await supabase.auth.signUp({ 
         email, 
         password, 
         options: {
           data: {
-            first_name: firstName,
-            last_name: lastName,
+            firstName: firstName,
+            lastName: lastName,
+            newsletter: newsletter,
+            terms: terms,
           },
         },
       });

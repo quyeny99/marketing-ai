@@ -35,8 +35,7 @@ yarn-error.log*
 
 .cursor
 
-.cursor/
-
+.cursor/mcp.json
 # vercel
 .vercel
 

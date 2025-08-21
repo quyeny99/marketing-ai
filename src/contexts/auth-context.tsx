@@ -48,6 +48,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             console.log("Initial user found:", user.id);
             setUser(user);
           }
+          
         } catch (error) {
           // Silently ignore auth errors during initialization
           console.log("No valid session found during initialization");

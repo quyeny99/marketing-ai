@@ -1,186 +1,489 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Switch } from "@/components/ui/switch-originui";
-import { User, Edit } from "lucide-react";
-import { useSupabaseAuth } from "@/hooks/use-supabase-auth";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { 
+  User, 
+  Mail, 
+  Phone, 
+  MapPin, 
+  Calendar,
+  Edit,
+  Save,
+  X,
+  Camera,
+  Shield,
+  Bell,
+  Globe,
+  CreditCard,
+  Settings,
+  LogOut,
+  Eye,
+  EyeOff,
+  CheckCircle,
+  AlertCircle,
+  BarChart3
+} from "lucide-react";
 
 export default function ProfilePage() {
-  const { user, isLoading } = useSupabaseAuth();
-  const email = user?.email ?? "";
-  const firstName = (user?.user_metadata?.first_name as string | undefined) ?? "";
-  const lastName = (user?.user_metadata?.last_name as string | undefined) ?? "";
-  const fullNameMeta = (user?.user_metadata?.full_name as string | undefined) ?? "";
-  const displayName = fullNameMeta || [firstName, lastName].filter(Boolean).join(" ") || (email ? email.split("@")[0] : "User");
-  const avatarUrl = (user?.user_metadata?.avatar_url as string | undefined) || "/placeholder-avatar.jpg";
-  const initials = (displayName || "U")
-    .split(" ")
-    .filter(Boolean)
-    .map((s) => s[0]!.toUpperCase())
-    .slice(0, 2)
-    .join("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [profileData, setProfileData] = useState({
+    firstName: "Nguyễn",
+    lastName: "Văn A",
+    email: "nguyenvana@example.com",
+    phone: "+84 90 123 4567",
+    company: "Marketing AI Company",
+    position: "Marketing Manager",
+    location: "TP.HCM, Việt Nam",
+    bio: "Chuyên gia marketing với 5 năm kinh nghiệm trong lĩnh vực digital marketing và AI. Đam mê sáng tạo và luôn tìm kiếm những giải pháp marketing hiệu quả.",
+    website: "https://marketingai.com",
+    timezone: "Asia/Ho_Chi_Minh",
+    language: "vi"
+  });
+
+  const [passwordData, setPasswordData] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: ""
+  });
+
+  const handleSave = () => {
+    // Here you would typically save to backend
+    setIsEditing(false);
+    // You can add toast notification here
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    // Reset form data if needed
+  };
+
+  const handlePasswordChange = () => {
+    // Here you would typically change password
+    setPasswordData({
+      currentPassword: "",
+      newPassword: "",
+      confirmPassword: ""
+    });
+    // You can add toast notification here
+  };
+
+  const getInitials = (firstName: string, lastName: string) => {
+    return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
+  };
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">Hồ sơ cá nhân</h1>
-          <p className="text-muted-foreground">Quản lý thông tin cá nhân và tài khoản của bạn</p>
+    <div className="min-h-screen bg-gray-50">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+        {/* Header */}
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-black mb-2">
+            Hồ sơ Cá nhân
+          </h1>
+          <p className="text-gray-600 text-sm sm:text-base">
+            Quản lý thông tin cá nhân và cài đặt tài khoản
+          </p>
         </div>
-        <Button>
-          <Edit className="w-4 h-4 mr-2" />
-          Chỉnh sửa
-        </Button>
-      </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        {/* Thông tin cá nhân */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <User className="w-5 h-5" />
-              Thông tin cá nhân
-            </CardTitle>
-            <CardDescription>
-              Cập nhật thông tin cá nhân của bạn
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center gap-4">
-              <Avatar className="w-20 h-20">
-                <AvatarImage src={avatarUrl} alt="Avatar" />
-                <AvatarFallback>{initials}</AvatarFallback>
-              </Avatar>
-              <div>
-                <h3 className="font-semibold">{isLoading ? "Loading..." : displayName}</h3>
-                <p className="text-sm text-muted-foreground">{email}</p>
-              </div>
-            </div>
-            <Separator />
-            <div className="grid gap-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="firstName">Họ</Label>
-                  <Input id="firstName" defaultValue={firstName} className="w-full" />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+          {/* Profile Information */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Basic Profile Card */}
+            <Card className="bg-white border-gray-200">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="flex items-center gap-2">
+                    <User className="w-5 h-5 text-blue-600" />
+                    Thông tin Cơ bản
+                  </CardTitle>
+                  {!isEditing ? (
+                    <Button
+                      onClick={() => setIsEditing(true)}
+                      variant="outline"
+                      size="sm"
+                      className="flex items-center gap-2"
+                    >
+                      <Edit className="w-4 h-4" />
+                      Chỉnh sửa
+                    </Button>
+                  ) : (
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={handleSave}
+                        size="sm"
+                        className="flex items-center gap-2 bg-green-600 hover:bg-green-700"
+                      >
+                        <Save className="w-4 h-4" />
+                        Lưu
+                      </Button>
+                      <Button
+                        onClick={handleCancel}
+                        variant="outline"
+                        size="sm"
+                        className="flex items-center gap-2"
+                      >
+                        <X className="w-4 h-4" />
+                        Hủy
+                      </Button>
+                    </div>
+                  )}
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="lastName">Tên</Label>
-                  <Input id="lastName" defaultValue={lastName} className="w-full" />
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {/* Avatar Section */}
+                <div className="flex items-center gap-6">
+                  <div className="relative">
+                    <Avatar className="w-20 h-20">
+                      <AvatarImage src="/api/avatar" alt="Profile" />
+                      <AvatarFallback className="text-2xl font-semibold bg-blue-100 text-blue-600">
+                        {getInitials(profileData.firstName, profileData.lastName)}
+                      </AvatarFallback>
+                    </Avatar>
+                    {isEditing && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="absolute -bottom-2 -right-2 w-8 h-8 rounded-full p-0 bg-white border-2 border-white shadow-sm"
+                      >
+                        <Camera className="w-4 h-4" />
+                      </Button>
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      {profileData.firstName} {profileData.lastName}
+                    </h3>
+                    <p className="text-gray-600">{profileData.position}</p>
+                    <p className="text-gray-500 text-sm">{profileData.company}</p>
+                  </div>
                 </div>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" defaultValue={email} className="w-full" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="phone">Số điện thoại</Label>
-                <Input id="phone" defaultValue="" className="w-full" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="address">Địa chỉ</Label>
-                <Textarea id="address" defaultValue="" className="w-full resize-none" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
 
-        {/* Thông tin tài khoản */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Thông tin tài khoản</CardTitle>
-            <CardDescription>
-              Quản lý cài đặt tài khoản và bảo mật
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="username">Tên đăng nhập</Label>
-              <Input id="username" defaultValue="" className="w-full" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="currentPassword">Mật khẩu hiện tại</Label>
-              <Input id="currentPassword" type="password" className="w-full" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="newPassword">Mật khẩu mới</Label>
-              <Input id="newPassword" type="password" className="w-full" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Xác nhận mật khẩu mới</Label>
-              <Input id="confirmPassword" type="password" className="w-full" />
-            </div>
-            <Button className="w-full">Cập nhật mật khẩu</Button>
-          </CardContent>
-        </Card>
+                {/* Form Fields */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Họ *
+                    </label>
+                    <Input
+                      value={profileData.lastName}
+                      onChange={(e) => setProfileData({...profileData, lastName: e.target.value})}
+                      disabled={!isEditing}
+                      className="w-full"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Tên *
+                    </label>
+                    <Input
+                      value={profileData.firstName}
+                      onChange={(e) => setProfileData({...profileData, firstName: e.target.value})}
+                      disabled={!isEditing}
+                      className="w-full"
+                    />
+                  </div>
+                </div>
 
-        {/* Thông tin công ty */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Thông tin công ty</CardTitle>
-            <CardDescription>
-              Thông tin về công ty của bạn
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="companyName">Tên công ty</Label>
-              <Input id="companyName" defaultValue="" className="w-full" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="position">Chức vụ</Label>
-              <Input id="position" defaultValue="" className="w-full" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="department">Phòng ban</Label>
-              <Input id="department" defaultValue="" className="w-full" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="companyAddress">Địa chỉ công ty</Label>
-              <Textarea id="companyAddress" defaultValue="" className="w-full resize-none" />
-            </div>
-          </CardContent>
-        </Card>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Email *
+                    </label>
+                    <Input
+                      value={profileData.email}
+                      onChange={(e) => setProfileData({...profileData, email: e.target.value})}
+                      disabled={!isEditing}
+                      type="email"
+                      className="w-full"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Số điện thoại
+                    </label>
+                    <Input
+                      value={profileData.phone}
+                      onChange={(e) => setProfileData({...profileData, phone: e.target.value})}
+                      disabled={!isEditing}
+                      className="w-full"
+                    />
+                  </div>
+                </div>
 
-        {/* Cài đặt thông báo */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Cài đặt thông báo</CardTitle>
-            <CardDescription>
-              Quản lý cách bạn nhận thông báo
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="font-medium">Email thông báo</p>
-                <p className="text-sm text-muted-foreground">Nhận thông báo qua email</p>
-              </div>
-              <Switch checked={true} onCheckedChange={(checked) => console.log('Email:', checked)} />
-            </div>
-            <Separator />
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="font-medium">Thông báo push</p>
-                <p className="text-sm text-muted-foreground">Thông báo trên trình duyệt</p>
-              </div>
-              <Switch checked={true} onCheckedChange={(checked) => console.log('Push:', checked)} />
-            </div>
-            <Separator />
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="font-medium">Thông báo SMS</p>
-                <p className="text-sm text-muted-foreground">Nhận thông báo qua SMS</p>
-              </div>
-              <Switch checked={false} onCheckedChange={(checked) => console.log('SMS:', checked)} />
-            </div>
-          </CardContent>
-        </Card>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Công ty
+                    </label>
+                    <Input
+                      value={profileData.company}
+                      onChange={(e) => setProfileData({...profileData, company: e.target.value})}
+                      disabled={!isEditing}
+                      className="w-full"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Vị trí
+                    </label>
+                    <Input
+                      value={profileData.position}
+                      onChange={(e) => setProfileData({...profileData, position: e.target.value})}
+                      disabled={!isEditing}
+                      className="w-full"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Địa chỉ
+                  </label>
+                  <Input
+                    value={profileData.location}
+                    onChange={(e) => setProfileData({...profileData, location: e.target.value})}
+                    disabled={!isEditing}
+                    className="w-full"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Giới thiệu
+                  </label>
+                  <Textarea
+                    value={profileData.bio}
+                    onChange={(e) => setProfileData({...profileData, bio: e.target.value})}
+                    disabled={!isEditing}
+                    className="min-h-[100px] w-full"
+                    placeholder="Mô tả về bản thân, kinh nghiệm và chuyên môn..."
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Website
+                    </label>
+                    <Input
+                      value={profileData.website}
+                      onChange={(e) => setProfileData({...profileData, website: e.target.value})}
+                      disabled={!isEditing}
+                      type="url"
+                      className="w-full"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Múi giờ
+                    </label>
+                    <Select
+                      value={profileData.timezone}
+                      onValueChange={(value) => setProfileData({...profileData, timezone: value})}
+                      disabled={!isEditing}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Asia/Ho_Chi_Minh">Việt Nam (GMT+7)</SelectItem>
+                        <SelectItem value="Asia/Bangkok">Thái Lan (GMT+7)</SelectItem>
+                        <SelectItem value="Asia/Singapore">Singapore (GMT+8)</SelectItem>
+                        <SelectItem value="Asia/Tokyo">Nhật Bản (GMT+9)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Password Change Card */}
+            <Card className="bg-white border-gray-200">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Shield className="w-5 h-5 text-red-600" />
+                  Thay đổi Mật khẩu
+                </CardTitle>
+                <CardDescription>
+                  Cập nhật mật khẩu để bảo mật tài khoản
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Mật khẩu hiện tại
+                  </label>
+                  <div className="relative">
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      value={passwordData.currentPassword}
+                      onChange={(e) => setPasswordData({...passwordData, currentPassword: e.target.value})}
+                      className="w-full pr-10"
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Mật khẩu mới
+                    </label>
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      value={passwordData.newPassword}
+                      onChange={(e) => setPasswordData({...passwordData, newPassword: e.target.value})}
+                      className="w-full"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Xác nhận mật khẩu mới
+                    </label>
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      value={passwordData.confirmPassword}
+                      onChange={(e) => setPasswordData({...passwordData, confirmPassword: e.target.value})}
+                      className="w-full"
+                    />
+                  </div>
+                </div>
+
+                <Button
+                  onClick={handlePasswordChange}
+                  disabled={!passwordData.currentPassword || !passwordData.newPassword || !passwordData.confirmPassword}
+                  className="bg-red-600 hover:bg-red-700 text-white"
+                >
+                  Thay đổi Mật khẩu
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Sidebar */}
+          <div className="space-y-6">
+            {/* Account Status */}
+            <Card className="bg-white border-gray-200">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  Trạng thái Tài khoản
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">Email xác thực</span>
+                  <Badge variant="secondary" className="bg-green-100 text-green-700">
+                    Đã xác thực
+                  </Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">2FA</span>
+                  <Badge variant="secondary" className="bg-yellow-100 text-yellow-700">
+                    Chưa bật
+                  </Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">Gói dịch vụ</span>
+                  <Badge variant="secondary" className="bg-blue-100 text-blue-700">
+                    Pro
+                  </Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">Ngày hết hạn</span>
+                  <span className="text-sm font-medium text-gray-900">15/12/2024</span>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Quick Actions */}
+            <Card className="bg-white border-gray-200">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Settings className="w-5 h-5 text-gray-600" />
+                  Thao tác Nhanh
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <Button variant="outline" className="w-full justify-start">
+                  <Bell className="w-4 h-4 mr-2" />
+                  Cài đặt thông báo
+                </Button>
+                <Button variant="outline" className="w-full justify-start">
+                  <Globe className="w-4 h-4 mr-2" />
+                  Cài đặt ngôn ngữ
+                </Button>
+                <Button variant="outline" className="w-full justify-start">
+                  <CreditCard className="w-4 h-4 mr-2" />
+                  Quản lý thanh toán
+                </Button>
+                <Button variant="outline" className="w-full justify-start">
+                  <Shield className="w-4 h-4 mr-2" />
+                  Bảo mật tài khoản
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Account Stats */}
+            <Card className="bg-white border-gray-200">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <BarChart3 className="w-5 h-5 text-purple-600" />
+                  Thống kê Tài khoản
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">Ngày tham gia</span>
+                  <span className="text-sm font-medium text-gray-900">15/03/2024</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">Lần đăng nhập cuối</span>
+                  <span className="text-sm font-medium text-gray-900">Hôm nay</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">Chiến dịch đã tạo</span>
+                  <span className="text-sm font-medium text-gray-900">24</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">Nội dung đã tạo</span>
+                  <span className="text-sm font-medium text-gray-900">156</span>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Logout */}
+            <Card className="bg-white border-gray-200">
+              <CardContent className="pt-6">
+                <Button variant="outline" className="w-full text-red-600 border-red-200 hover:bg-red-50">
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Đăng xuất
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        <Separator className="my-8" />
+        <div className="text-sm text-gray-600">
+          Gợi ý: Cập nhật thông tin cá nhân thường xuyên để đảm bảo tính chính xác. Bật 2FA để tăng cường bảo mật tài khoản.
+        </div>
       </div>
     </div>
   );

@@ -6,14 +6,14 @@ export default function AnalyticsPage() {
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8">
         <div className="mb-6">
-          <h1 className="text-3xl font-bold text-black">Phân tích & báo cáo</h1>
+          <h1 className="text-3xl font-bold text-black">Phân tích & Báo cáo</h1>
           <p className="text-gray-600 mt-1">Hiệu suất chiến dịch (demo UI)</p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           <Card className="bg-white border-gray-200">
             <CardHeader>
-              <CardTitle className="text-black">Tổng reach</CardTitle>
+              <CardTitle className="text-black">Tổng tiếp cận</CardTitle>
               <CardDescription>30 ngày gần nhất</CardDescription>
             </CardHeader>
             <CardContent>
@@ -24,7 +24,7 @@ export default function AnalyticsPage() {
           <Card className="bg-white border-gray-200">
             <CardHeader>
               <CardTitle className="text-black">CTR trung bình</CardTitle>
-              <CardDescription>Click-through rate</CardDescription>
+              <CardDescription>Tỷ lệ click</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-black">3.8%</div>
@@ -34,7 +34,7 @@ export default function AnalyticsPage() {
           <Card className="bg-white border-gray-200">
             <CardHeader>
               <CardTitle className="text-black">Chuyển đổi</CardTitle>
-              <CardDescription>Conversion rate</CardDescription>
+              <CardDescription>Tỷ lệ chuyển đổi</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-black">3.2%</div>
@@ -69,7 +69,7 @@ export default function AnalyticsPage() {
                 ].map((c) => (
                   <div key={c.name} className="p-3 border border-gray-200 rounded-md">
                     <div className="font-medium text-black">{c.name}</div>
-                    <div className="text-sm text-gray-600">Reach: {c.reach} • {c.growth}</div>
+                    <div className="text-sm text-gray-600">Tiếp cận: {c.reach} • {c.growth}</div>
                   </div>
                 ))}
               </div>

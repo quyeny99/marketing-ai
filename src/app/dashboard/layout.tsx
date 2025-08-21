@@ -103,37 +103,37 @@ export default function DashboardLayout({
     
     if (pathSegments.length === 1 && pathSegments[0] === 'dashboard') {
       return [
-        { label: 'Dashboard', href: '/dashboard' }
+        { label: 'Bảng điều khiển', href: '/dashboard' }
       ];
     }
     
     if (pathSegments.length >= 2 && pathSegments[0] === 'dashboard') {
       const page = pathSegments[1];
-              const breadcrumbMap: { [key: string]: string } = {
-          'content': 'Content AI',
-          'email': 'Email Marketing AI',
-          'image': 'Image AI',
-          'campaigns': 'Campaigns',
-          'analytics': 'Analytics',
-          'activity': 'Activity',
-          'profile': 'Hồ sơ cá nhân',
-          'billing': 'Quản lý thanh toán',
-          'settings': 'Settings',
-          'notifications': 'Thông báo',
-          'help': 'Get Help',
-          'search': 'Search',
-        };
+      const breadcrumbMap: { [key: string]: string } = {
+        'content': 'Tạo nội dung AI',
+        'email': 'Email Marketing AI',
+        'image': 'Tạo hình ảnh AI',
+        'campaigns': 'Chiến dịch',
+        'analytics': 'Phân tích',
+        'activity': 'Hoạt động',
+        'profile': 'Hồ sơ cá nhân',
+        'billing': 'Quản lý thanh toán',
+        'settings': 'Cài đặt',
+        'notifications': 'Thông báo',
+        'help': 'Trợ giúp',
+        'search': 'Tìm kiếm',
+      };
       
       const pageLabel = breadcrumbMap[page] || page.charAt(0).toUpperCase() + page.slice(1);
       
       return [
-        { label: 'Dashboard', href: '/dashboard' },
+        { label: 'Bảng điều khiển', href: '/dashboard' },
         { label: pageLabel, href: pathname }
       ];
     }
     
     return [
-      { label: 'Dashboard', href: '/dashboard' }
+      { label: 'Bảng điều khiển', href: '/dashboard' }
     ];
   };
 
@@ -149,10 +149,15 @@ export default function DashboardLayout({
   // Show loading state while auth is initializing
   if (!isInitialized || isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading...</p>
+          <h2 className="text-xl font-semibold text-gray-800 mb-2">
+            Đang xác minh tài khoản...
+          </h2>
+          <p className="text-gray-600">
+            Vui lòng chờ trong khi chúng tôi xác minh thông tin đăng nhập...
+          </p>
         </div>
       </div>
     );
@@ -164,7 +169,7 @@ export default function DashboardLayout({
   }
 
   return (
-    <SidebarProvider defaultOpen={false}>
+    <SidebarProvider defaultOpen={true}>
       <Sidebar collapsible="offcanvas" side="left" className="bg-white text-black">
         <SidebarHeader>
           <div className="flex items-center gap-2 px-2 py-2">
@@ -184,7 +189,7 @@ export default function DashboardLayout({
                     <SidebarMenuButton asChild isActive={isActive("/dashboard/content")}>
                       <span className="inline-flex items-center gap-2">
                         <Rocket className="w-4 h-4" />
-                        <span>Quick Create</span>
+                        <span>Tạo nhanh</span>
                       </span>
                     </SidebarMenuButton>
                   </Link>
@@ -194,7 +199,7 @@ export default function DashboardLayout({
                     <SidebarMenuButton asChild isActive={isActive("/dashboard")}>
                       <span className="inline-flex items-center gap-2">
                         <Gauge className="w-4 h-4" />
-                        <span>Dashboard</span>
+                        <span>Bảng điều khiển</span>
                       </span>
                     </SidebarMenuButton>
                   </Link>
@@ -204,7 +209,7 @@ export default function DashboardLayout({
                     <SidebarMenuButton asChild isActive={isActive("/dashboard/campaigns")}>
                       <span className="inline-flex items-center gap-2">
                         <Megaphone className="w-4 h-4" />
-                        <span>Campaigns</span>
+                        <span>Chiến dịch</span>
                       </span>
                     </SidebarMenuButton>
                   </Link>
@@ -214,7 +219,7 @@ export default function DashboardLayout({
                     <SidebarMenuButton asChild isActive={isActive("/dashboard/analytics")}>
                       <span className="inline-flex items-center gap-2">
                         <BarChart3 className="w-4 h-4" />
-                        <span>Analytics</span>
+                        <span>Phân tích</span>
                       </span>
                     </SidebarMenuButton>
                   </Link>
@@ -224,7 +229,7 @@ export default function DashboardLayout({
                     <SidebarMenuButton asChild isActive={isActive("/dashboard/activity")}>
                       <span className="inline-flex items-center gap-2">
                         <FolderKanban className="w-4 h-4" />
-                        <span>Activity</span>
+                        <span>Hoạt động</span>
                       </span>
                     </SidebarMenuButton>
                   </Link>
@@ -243,7 +248,7 @@ export default function DashboardLayout({
                     <SidebarMenuButton asChild isActive={isActive("/dashboard/content")}>
                       <span className="inline-flex items-center gap-2">
                         <Wand2 className="w-4 h-4" />
-                        <span>Content AI</span>
+                        <span>Tạo nội dung AI</span>
                       </span>
                     </SidebarMenuButton>
                   </Link>
@@ -263,7 +268,7 @@ export default function DashboardLayout({
                     <SidebarMenuButton asChild isActive={isActive("/dashboard/image")}>
                       <span className="inline-flex items-center gap-2">
                         <GalleryVerticalEnd className="w-4 h-4" />
-                        <span>Image AI</span>
+                        <span>Tạo hình ảnh AI</span>
                       </span>
                     </SidebarMenuButton>
                   </Link>
@@ -301,7 +306,7 @@ export default function DashboardLayout({
                 <SidebarMenuButton asChild isActive={isActive("/dashboard/settings")}>
                   <span className="inline-flex items-center gap-2">
                     <Settings className="w-4 h-4" />
-                    <span>Settings</span>
+                    <span>Cài đặt</span>
                   </span>
                 </SidebarMenuButton>
               </Link>
@@ -311,7 +316,7 @@ export default function DashboardLayout({
                 <SidebarMenuButton asChild isActive={isActive("/dashboard/help")}>
                   <span className="inline-flex items-center gap-2">
                     <HelpCircle className="w-4 h-4" />
-                    <span>Get Help</span>
+                    <span>Trợ giúp</span>
                   </span>
                 </SidebarMenuButton>
               </Link>
@@ -321,7 +326,7 @@ export default function DashboardLayout({
                 <SidebarMenuButton asChild isActive={isActive("/dashboard/search")}>
                   <span className="inline-flex items-center gap-2">
                     <Search className="w-4 h-4" />
-                    <span>Search</span>
+                    <span>Tìm kiếm</span>
                   </span>
                 </SidebarMenuButton>
               </Link>
@@ -332,7 +337,7 @@ export default function DashboardLayout({
               {/* Decorative dot; avatar shown in topbar */}
             </div>
             <div>
-              <div className="font-medium text-black truncate max-w-[140px]">{isLoading ? "Loading..." : name}</div>
+              <div className="font-medium text-black truncate max-w-[140px]">{isLoading ? "Đang tải..." : name}</div>
               <div className="truncate max-w-[160px]">{isLoading ? "" : email}</div>
             </div>
           </div>

@@ -24,6 +24,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { SparklesText } from "@/components/magicui/sparkles-text";
+import { useAuth } from "@/contexts/auth-context";
 
 const registerSchema = z.object({
   firstName: z.string().min(1, { message: "Vui lòng nhập tên" }),
@@ -41,7 +42,8 @@ const registerSchema = z.object({
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
 export default function RegisterPage() {
-  const { signUpWithPassword, user } = useSupabaseAuth();
+  const { signUpWithPassword } = useSupabaseAuth();
+  const { user } = useAuth();
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   useEffect(() => {
@@ -62,7 +64,14 @@ export default function RegisterPage() {
 
   async function onSubmit(values: RegisterFormValues) {
     setIsSubmitting(true);
-    const err = await signUpWithPassword(values.email, values.password, values.firstName, values.lastName);
+    const err = await signUpWithPassword(
+      values.email, 
+      values.password, 
+      values.firstName, 
+      values.lastName,
+      values.newsletter || false,
+      values.terms
+    );
     setIsSubmitting(false);
     if (err) {
       toast.error(err);
